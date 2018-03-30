@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
 {
-    public class DefaultContext : IOperation, IRequest, IRequestHeaders
+    public class DefaultContext : IRequest, IRequestHeaders
     {
         private readonly HttpContext _httpContext;
 
@@ -20,15 +20,11 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
         // TODO --> Ajouter l'utilisateur
         // TODO --> Ajouter des variables qui soient dynamiques (comme ça le client change la variable d'environnement et c'est pris en compte)
 
-        public IOperation Operation => this;
-
         public IRequest Request => this;
 
         public DateTime Timestamp { get; }
 
-        string IOperation.Method => _httpContext.Request.Method;
-
-        string IOperation.UrlTemplate => throw new NotImplementedException(); // TODO
+        string IRequest.UrlTemplate => throw new NotImplementedException(); // TODO (penser à mettre à jour le test unitaire
 
         string IRequest.Method => _httpContext.Request.Method;
 
@@ -36,11 +32,9 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
 
         IRequestHeaders IRequest.Headers => this;
 
-        string IRequest.IpAddress => $"{_httpContext.Connection.RemoteIpAddress}:{_httpContext.Connection.RemotePort}";
+        string IRequest.IpAddress => _httpContext.Connection.RemoteIpAddress.ToString();
 
-        string IRequest.OriginalUrl => $"{_httpContext.Request.Scheme}://{_httpContext.Request.Path}{_httpContext.Request.Query}";
-
-        string IRequest.Url => $"{_httpContext.Request.Scheme}://{_httpContext.Request.Path}{_httpContext.Request.Query}";
+        string IRequest.Url => $"{_httpContext.Request.Scheme}://{_httpContext.Request.Host}{_httpContext.Request.Path}{_httpContext.Request.QueryString}";
 
         IEnumerable<string> IReadOnlyDictionary<string, string[]>.Keys => _httpContext.Request.Headers.Keys;
 

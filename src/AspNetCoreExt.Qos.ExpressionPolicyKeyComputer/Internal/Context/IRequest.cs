@@ -12,8 +12,8 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
 
         string Method { get; }
 
-        string OriginalUrl { get; }
-
         string Url { get; }
+
+        string UrlTemplate { get; }
     }
 }

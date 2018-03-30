@@ -13,7 +13,7 @@ using Xunit;
 
 namespace AspNetCoreExt.Qos.Tests
 {
-    public class QosMiddlewareTests
+    public class QosMiddlewareTest
     {
         private static readonly string BodyContent = "BODY_CONTENT";
 
