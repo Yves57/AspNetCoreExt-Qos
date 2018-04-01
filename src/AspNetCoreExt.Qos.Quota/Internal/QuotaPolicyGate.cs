@@ -65,7 +65,7 @@ namespace AspNetCoreExt.Qos.Quota.Internal
                 context.HttpContext.Features.Set(wrapperStream.InnerSendFileFeature);
             }
 
-            return _store.AddAsync(context.Key, wrapperStream.WrittenLength);
+            return _store.AddAsync(context.Key, wrapperStream.WrittenLength, _period);
         }
     }
 }

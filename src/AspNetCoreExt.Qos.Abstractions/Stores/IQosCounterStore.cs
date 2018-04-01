@@ -7,9 +7,9 @@ namespace AspNetCoreExt.Qos.Abstractions.Stores
     {
         Task<long> GetAsync(string key);
 
-        Task<long> AddAsync(string key, long increment);
+        Task<long> AddAsync(string key, long increment, TimeSpan? period);
 
-        Task<CounterStoreAddResult> TryAddASync(string key, long increment, long maxValue, TimeSpan? period);
+        Task<CounterStoreAddResult> TryAddAsync(string key, long increment, long maxValue, TimeSpan? period);
 
         Task RemoveAsync(string key);
 

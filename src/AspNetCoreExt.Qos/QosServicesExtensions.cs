@@ -1,6 +1,5 @@
 ﻿using AspNetCoreExt.Qos;
 using AspNetCoreExt.Qos.Abstractions.Stores;
-using AspNetCoreExt.Qos.Concurrency.Internal;
 using AspNetCoreExt.Qos.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,6 +20,7 @@ namespace Microsoft.AspNetCore.Builder
             services.TryAddSingleton<IQosRejectResponse, DefaultQosRejectResponse>();
             services.AddSingleton<IQosPolicyPostConfigure, DefaultQosPolicyPostConfigure>();
             services.AddSingleton<IQosPolicyKeyComputerProvider, DirectQosPolicyKeyComputerProvider>();
+            services.AddSingleton<ISystemClock, DefaultSystemClock>();
             services.TryAddSingleton<IQosMemoryCounterStore, DefaultMemoryQosCounterStore>();
         }
     }
