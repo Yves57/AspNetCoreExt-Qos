@@ -14,7 +14,7 @@ namespace AspNetCoreExt.Qos.RateLimit.Internal
 
         public RateLimitPolicyGate(IQosCounterStore store, TimeSpan period, int maxCount)
         {
-            if (_period.Ticks <= 0)
+            if (period.Ticks <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(period));
             }

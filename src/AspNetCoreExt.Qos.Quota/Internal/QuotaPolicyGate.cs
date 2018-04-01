@@ -16,9 +16,13 @@ namespace AspNetCoreExt.Qos.Quota.Internal
 
         public QuotaPolicyGate(IQosCounterStore store, TimeSpan period, long maxCount)
         {
-            if (_period.Ticks <= 0)
+            if (period.Ticks <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(period));
+            }
+            if (maxCount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(maxCount));
             }
 
             _store = store;
