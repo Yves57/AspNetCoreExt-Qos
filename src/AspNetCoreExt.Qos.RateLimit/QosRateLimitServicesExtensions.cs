@@ -7,7 +7,7 @@ namespace Microsoft.AspNetCore.Builder
 {
     public static class QosRateLimitServicesExtensions
     {
-        public static void AddQosConcurrency(this IServiceCollection services)
+        public static void AddQosRateLimit(this IServiceCollection services)
         {
             if (services == null)
             {

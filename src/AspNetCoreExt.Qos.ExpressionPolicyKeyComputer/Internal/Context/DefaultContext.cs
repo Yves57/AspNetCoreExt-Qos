@@ -34,7 +34,7 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
 
         string IRequest.IpAddress => _httpContext.Connection.RemoteIpAddress.ToString();
 
-        string IRequest.Url => $"{_httpContext.Request.Scheme}://{_httpContext.Request.Host}{_httpContext.Request.Path}{_httpContext.Request.QueryString}";
+        string IRequest.Url => $"{_httpContext.Request.Path}{_httpContext.Request.QueryString}";
 
         IEnumerable<string> IReadOnlyDictionary<string, string[]>.Keys => _httpContext.Request.Headers.Keys;
 

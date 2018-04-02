@@ -6,6 +6,16 @@ namespace Microsoft.AspNetCore.Builder
 {
     public static class QosVipServicesExtensions
     {
+        public static IServiceCollection AddQosVip(this IServiceCollection services)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            return services;
+        }
+
         public static IServiceCollection AddQosVip(this IServiceCollection services, Action<QosVipOptions> configureOptions)
         {
             if (services == null)

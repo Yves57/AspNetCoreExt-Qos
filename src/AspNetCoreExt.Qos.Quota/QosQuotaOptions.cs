@@ -4,6 +4,6 @@ namespace AspNetCoreExt.Qos.Quota
 {
     public class QosQuotaOptions
     {
-        public IEnumerable<QosQuotaPolicy> Policies { get; set; }
+        public IDictionary<string, QosQuotaPolicy> Policies { get; set; }
     }
 }

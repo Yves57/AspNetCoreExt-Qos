@@ -34,13 +34,6 @@ namespace AspNetCoreExt.Qos.RateLimit.Tests.Internal
                         NewCounter = _counter
                     };
                 });
-            store
-                .Setup(s => s.AddAsync("k", It.IsAny<long>(), _period))
-                .ReturnsAsync<string, long, TimeSpan?, IQosCounterStore, long>((key, increment, period) =>
-                {
-                    _counter += increment;
-                    return _counter;
-                });
 
             _counterStore = store.Object;
         }
@@ -63,7 +56,7 @@ namespace AspNetCoreExt.Qos.RateLimit.Tests.Internal
                 Key = "k"
             });
 
-            Assert.Equal(0, _counter);
+            Assert.Equal(1, _counter);
         }
 
         [Fact]

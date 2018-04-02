@@ -4,6 +4,6 @@ namespace AspNetCoreExt.Qos.RateLimit
 {
     public class QosRateLimitOptions
     {
-        public IEnumerable<QosRateLimitPolicy> Policies { get; set; }
+        public IDictionary<string, QosRateLimitPolicy> Policies { get; set; }
     }
 }

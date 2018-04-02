@@ -37,7 +37,7 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Tests
             Assert.Equal("PATCH", request.Method);
             Assert.Null(request.Certificate);
             Assert.Equal(ip, request.IpAddress);
-            Assert.Equal("http://www.example.fr:1234/foo/bar?p1=111&p2=222", request.Url);
+            Assert.Equal("/foo/bar?p1=111&p2=222", request.Url);
 
             Assert.Equal(new[] { "Host", "h1", "h2", "h3" }, headers.Keys);
             Assert.Collection(

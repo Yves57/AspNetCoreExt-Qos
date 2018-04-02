@@ -40,7 +40,7 @@ namespace AspNetCoreExt.Qos.RateLimit.Internal
 
         public Task ExitAsync(QosGateExitContext context)
         {
-            return _store.AddAsync(context.Key, -1, _period);
+            return Task.CompletedTask;
         }
     }
 }

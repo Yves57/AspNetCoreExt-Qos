@@ -4,8 +4,6 @@ namespace AspNetCoreExt.Qos.Concurrency
 {
     public class QosConcurrencyPolicy
     {
-        public string Name { get; set; }
-
         public IEnumerable<string> UrlTemplates { get; set; }
 
         public object Key { get; set; }

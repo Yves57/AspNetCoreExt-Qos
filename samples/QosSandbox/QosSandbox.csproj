@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.1.0-preview2-30057" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.Concurrency\AspNetCoreExt.Qos.Concurrency.csproj" />
+    <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.ExpressionPolicyKeyComputer\AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.csproj" />
+    <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.Mvc\AspNetCoreExt.Qos.Mvc.csproj" />
+    <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.Quota\AspNetCoreExt.Qos.Quota.csproj" />
+    <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.RateLimit\AspNetCoreExt.Qos.RateLimit.csproj" />
+    <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.Vip\AspNetCoreExt.Qos.Vip.csproj" />
+    <ProjectReference Include="..\..\src\AspNetCoreExt.Qos\AspNetCoreExt.Qos.csproj" />
+  </ItemGroup>
+
+</Project>

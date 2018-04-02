@@ -4,6 +4,6 @@ namespace AspNetCoreExt.Qos.Concurrency
 {
     public class QosConcurrencyOptions
     {
-        public IEnumerable<QosConcurrencyPolicy> Policies { get; set; }
+        public IDictionary<string, QosConcurrencyPolicy> Policies { get; set; }
     }
 }

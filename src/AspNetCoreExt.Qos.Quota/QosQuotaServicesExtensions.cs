@@ -7,7 +7,7 @@ namespace Microsoft.AspNetCore.Builder
 {
     public static class QosQuotaServicesExtensions
     {
-        public static void AddQosConcurrency(this IServiceCollection services)
+        public static void AddQosQuota(this IServiceCollection services)
         {
             if (services == null)
             {
