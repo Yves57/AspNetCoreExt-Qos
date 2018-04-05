@@ -1,17 +1,16 @@
-﻿using AspNetCoreExt.Qos.Internal;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace AspNetCoreExt.Qos.Tests.Internal
+namespace AspNetCoreExt.Qos.Tests
 {
-    public class DefaultQosRejectResponseTest
+    public class QosRejectResponseTest
     {
         [Fact]
         public async Task Write()
         {
             var httpContext = new DefaultHttpContext();
-            var response = new DefaultQosRejectResponse();
+            var response = new QosRejectResponse();
 
             await response.WriteAsync(new QosRejectResponseContext()
             {

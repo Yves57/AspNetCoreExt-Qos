@@ -1,4 +1,5 @@
-﻿using AspNetCoreExt.Qos.Concurrency;
+﻿using AspNetCoreExt.Qos;
+using AspNetCoreExt.Qos.Concurrency;
 using AspNetCoreExt.Qos.Quota;
 using AspNetCoreExt.Qos.RateLimit;
 using AspNetCoreExt.Qos.Vip;
@@ -6,6 +7,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QosSandbox.CustomPolicy;
+using QosSandbox.CustomPolicyPostConfigure;
 
 namespace QosSandbox
 {
@@ -21,6 +24,10 @@ namespace QosSandbox
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IQosRejectResponse, MyCustomQosRejectResponse>();
+            services.AddSingleton<IQosPolicyProvider, MyCustomPolicyProvider>();
+            services.AddSingleton<IQosPolicyPostConfigure, MyCustomPolicyPostConfigure>();
+
             services.AddQos();
             services.AddExpressionPolicyKeyComputer();
 
@@ -34,6 +41,7 @@ namespace QosSandbox
             services.AddQosRateLimit();
 
             services.Configure<QosQuotaOptions>(Configuration.GetSection("Quota"));
+
             services.AddQosQuota();
 
             services.AddQosMvc();

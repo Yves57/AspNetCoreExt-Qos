@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 
-namespace AspNetCoreExt.Qos.Internal
+namespace AspNetCoreExt.Qos
 {
-    public class DefaultQosRejectResponse : IQosRejectResponse
+    public class QosRejectResponse : IQosRejectResponse
     {
-
-        public Task WriteAsync(QosRejectResponseContext context)
+        public virtual Task WriteAsync(QosRejectResponseContext context)
         {
             context.HttpContext.Response.StatusCode = QosConstants.TooManyRequestHttpStatus;
 
