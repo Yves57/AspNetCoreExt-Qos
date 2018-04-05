@@ -12,8 +12,6 @@ namespace AspNetCoreExt.Qos.Abstractions.Stores
         Task<CounterStoreAddResult> TryAddAsync(string key, long increment, long maxValue, TimeSpan? period);
 
         Task RemoveAsync(string key);
-
-        Task ClearAsync();
     }
 
     public struct CounterStoreAddResult

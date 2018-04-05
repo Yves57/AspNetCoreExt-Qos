@@ -112,20 +112,6 @@ namespace AspNetCoreExt.Qos.Tests.Internal
         }
 
         [Fact]
-        public async Task Clear()
-        {
-            var clock = new MockSystemClock();
-            var store = new DefaultMemoryQosCounterStore(clock);
-
-            await store.AddAsync("a", 3, TimeSpan.FromSeconds(1));
-            await store.AddAsync("b", 4, TimeSpan.FromSeconds(1));
-
-            await store.ClearAsync();
-
-            Assert.Equal(0, store.Count);
-        }
-
-        [Fact]
         public async Task CleanObsoleteEntries()
         {
             var clock = new MockSystemClock();

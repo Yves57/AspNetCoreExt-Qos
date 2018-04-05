@@ -125,15 +125,6 @@ namespace AspNetCoreExt.Qos.Internal
             return Task.CompletedTask;
         }
 
-        public Task ClearAsync()
-        {
-            lock (_counters)
-            {
-                _counters.Clear();
-            }
-            return Task.CompletedTask;
-        }
-
         private bool TryGet(string key, out StoreEntry counter)
         {
             if (_counters.TryGetValue(key, out counter))

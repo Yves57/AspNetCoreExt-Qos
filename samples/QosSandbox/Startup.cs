@@ -28,6 +28,8 @@ namespace QosSandbox
             services.AddSingleton<IQosPolicyProvider, MyCustomPolicyProvider>();
             services.AddSingleton<IQosPolicyPostConfigure, MyCustomPolicyPostConfigure>();
 
+            services.AddQosRedisStore(o => o.Configuration = "localhost");
+
             services.AddQos();
             services.AddExpressionPolicyKeyComputer();
 

@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.Mvc\AspNetCoreExt.Qos.Mvc.csproj" />
     <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.Quota\AspNetCoreExt.Qos.Quota.csproj" />
     <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.RateLimit\AspNetCoreExt.Qos.RateLimit.csproj" />
+    <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.Store.Redis\AspNetCoreExt.Qos.Store.Redis.csproj" />
     <ProjectReference Include="..\..\src\AspNetCoreExt.Qos.Vip\AspNetCoreExt.Qos.Vip.csproj" />
     <ProjectReference Include="..\..\src\AspNetCoreExt.Qos\AspNetCoreExt.Qos.csproj" />
   </ItemGroup>
