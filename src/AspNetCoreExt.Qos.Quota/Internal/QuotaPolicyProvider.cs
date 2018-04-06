@@ -37,7 +37,7 @@ namespace AspNetCoreExt.Qos.Quota.Internal
                         Order = -1100,
                         UrlTemplates = option.Value.UrlTemplates,
                         Key = keyComputerProviders.Create(option.Value.Key),
-                        Gate = CreateGate(option.Value.Period, option.Value.MaxCount, option.Value.Distributed, serviceProvider)
+                        Gate = CreateGate(option.Value.Period, option.Value.MaxCount * 1024, option.Value.Distributed, serviceProvider)
                     };
 
                     yield return policy;
