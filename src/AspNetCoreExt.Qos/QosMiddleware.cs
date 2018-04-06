@@ -80,7 +80,7 @@ namespace AspNetCoreExt.Qos
                 RouteTemplate routeTemplate;
                 if (policy.TryUrlMatching(context.Request.Path, routeValues, out routeTemplate))
                 {
-                    PrepareKeyContext(keyContext, context, routeTemplate, routeValues);
+                    PrepareKeyContext(keyContext, context, policy.Policy, routeTemplate, routeValues);
 
                     var key = policy.Policy.Key.GetKey(keyContext); // TODO Catch exceptions...
                     if (!string.IsNullOrEmpty(key))
@@ -109,10 +109,12 @@ namespace AspNetCoreExt.Qos
         private void PrepareKeyContext(
             QosPolicyKeyContext context,
             HttpContext httpContext,
+            QosPolicy policy,
             RouteTemplate routeTemplate,
             RouteValueDictionary routeValues)
         {
             context.HttpContext = httpContext;
+            context.Policy = policy;
             context.RouteTemplate = routeTemplate;
             context.RouteValues = routeValues;
         }

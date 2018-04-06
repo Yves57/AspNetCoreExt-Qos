@@ -8,6 +8,8 @@ namespace AspNetCoreExt.Qos
     {
         public HttpContext HttpContext { get; set; }
 
+        public QosPolicy Policy { get; set; }
+
         public RouteTemplate RouteTemplate { get; set; }
 
         public RouteValueDictionary RouteValues { get; set; }
