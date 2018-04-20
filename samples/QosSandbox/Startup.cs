@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QosSandbox.CustomPolicy;
 using QosSandbox.CustomPolicyPostConfigure;
+using System;
 
 namespace QosSandbox
 {
@@ -40,6 +41,17 @@ namespace QosSandbox
             services.AddQosConcurrency();
 
             services.Configure<QosRateLimitOptions>(Configuration.GetSection("RateLimit"));
+            services.PostConfigure<QosRateLimitOptions>(o =>
+            {
+                o.Policies.Add("R_HARDCODED", new QosRateLimitPolicy()
+                {
+                    MaxCount = 2,
+                    Period = new TimeSpan(0, 0, 30),
+                    UrlTemplates = new[] { "/api/ratelimit2" },
+                    Key = QosPolicyKeyComputer.Create(c => c.HttpContext.Connection.RemoteIpAddress.ToString())
+                });
+            });
+
             services.AddQosRateLimit();
 
             services.Configure<QosQuotaOptions>(Configuration.GetSection("Quota"));

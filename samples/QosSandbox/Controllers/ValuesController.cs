@@ -1,5 +1,6 @@
 ﻿using AspNetCoreExt.Qos.Mvc;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace QosSandbox.Controllers
 {
@@ -10,6 +11,13 @@ namespace QosSandbox.Controllers
         public string GetRateLimit(int id)
         {
             return "value";
+        }
+
+        [HttpGet("ratelimit2")]
+        public async Task<string> GetRateLimit2()
+        {
+            await Task.Delay(5000);
+            return "value2";
         }
 
         [HttpGet("quota1")]
