@@ -8,8 +8,6 @@ namespace AspNetCoreExt.Qos
         {
             context.HttpContext.Response.StatusCode = QosConstants.TooManyRequestHttpStatus;
 
-            // TODO --> Add specific headers?
-
             return Task.CompletedTask;
         }
     }

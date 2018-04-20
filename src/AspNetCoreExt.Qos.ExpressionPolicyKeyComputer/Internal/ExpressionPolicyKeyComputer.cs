@@ -48,7 +48,7 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
                 context.HttpContext,
                 context.RouteTemplate,
                 context.RouteValues,
-                DateTime.UtcNow)); // TODO Gérer la date...
+                DateTime.UtcNow));
         }
 
         private Func<DefaultContext, string> CompileFunction(string expression)

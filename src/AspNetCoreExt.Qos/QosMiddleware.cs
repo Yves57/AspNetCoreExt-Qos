@@ -82,12 +82,12 @@ namespace AspNetCoreExt.Qos
                 {
                     PrepareKeyContext(keyContext, context, policy.Policy, routeTemplate, routeValues);
 
-                    var key = policy.Policy.Key.GetKey(keyContext); // TODO Catch exceptions...
+                    var key = policy.Policy.Key.GetKey(keyContext);
                     if (!string.IsNullOrEmpty(key))
                     {
                         PrepareGateEnterContext(enterContext, context, key);
 
-                        var enterResult = await policy.Policy.Gate.TryEnterAsync(enterContext); // TODO Catch exceptions...
+                        var enterResult = await policy.Policy.Gate.TryEnterAsync(enterContext);
 
                         if (!enterResult.Success)
                         {
@@ -145,7 +145,6 @@ namespace AspNetCoreExt.Qos
                     }
                     catch // Catch all exceptions to be able to execute the other releases
                     {
-                        // TODO --> Log error?
                     }
                 }
             }
