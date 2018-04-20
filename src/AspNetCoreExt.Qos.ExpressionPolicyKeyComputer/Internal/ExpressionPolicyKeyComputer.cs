@@ -44,7 +44,11 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
 
         public string GetKey(QosPolicyKeyContext context)
         {
-            return _compiledFunction(new DefaultContext(context.HttpContext, DateTime.UtcNow)); // TODO Gérer la date...
+            return _compiledFunction(new DefaultContext(
+                context.HttpContext,
+                context.RouteTemplate,
+                context.RouteValues,
+                DateTime.UtcNow)); // TODO Gérer la date...
         }
 
         private Func<DefaultContext, string> CompileFunction(string expression)

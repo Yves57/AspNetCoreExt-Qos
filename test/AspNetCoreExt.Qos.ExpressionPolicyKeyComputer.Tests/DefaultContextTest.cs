@@ -1,7 +1,10 @@
 ﻿using AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.Primitives;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using Xunit;
 
@@ -17,7 +20,7 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Tests
 
             httpContext.Request.Method = "PATCH";
             httpContext.Request.Host = new HostString("www.example.fr", 1234);
-            httpContext.Request.Path = "/foo/bar";
+            httpContext.Request.Path = "/foo/123/bar";
             httpContext.Request.QueryString = new QueryString("?p1=111&p2=222");
             httpContext.Request.Scheme = "http";
             httpContext.Connection.RemoteIpAddress = IPAddress.Parse(ip);
@@ -27,17 +30,22 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Tests
             httpContext.Request.Headers.Add("h3", new StringValues(new string[] { "val3a", "val3b" }));
 
             var contextDate = new DateTime(2018, 3, 30);
-            var context = new DefaultContext(httpContext, contextDate);
+            var context = new DefaultContext(
+                httpContext,
+                TemplateParser.Parse("foo/{id}/bar"),
+                new RouteValueDictionary(new Dictionary<string, object>() { ["id"] = "123" }),
+                contextDate);
             var request = context.Request;
             var headers = context.Request.Headers;
 
             Assert.Equal(contextDate, context.Timestamp);
 
-            //Assert.Equal("", request.UrlTemplate);
             Assert.Equal("PATCH", request.Method);
             Assert.Null(request.Certificate);
             Assert.Equal(ip, request.IpAddress);
-            Assert.Equal("/foo/bar?p1=111&p2=222", request.Url);
+            Assert.Equal("/foo/123/bar?p1=111&p2=222", request.Url);
+            Assert.Equal("foo/{id}/bar", request.RouteTemplate);
+            Assert.Equal("123", request.RouteValues["id"]);
 
             Assert.Equal(new[] { "Host", "h1", "h2", "h3" }, headers.Keys);
             Assert.Collection(

@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
 {
@@ -14,6 +16,10 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
 
         string Url { get; }
 
-        string UrlTemplate { get; }
+        string RouteTemplate { get; }
+
+        IDictionary<string, string> RouteValues { get; }
+
+        ClaimsPrincipal User { get; }
     }
 }
