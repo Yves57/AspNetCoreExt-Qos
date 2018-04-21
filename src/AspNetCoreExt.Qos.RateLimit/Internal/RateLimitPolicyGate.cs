@@ -14,7 +14,7 @@ namespace AspNetCoreExt.Qos.RateLimit.Internal
 
         public RateLimitPolicyGate(IQosCounterStore store, TimeSpan period, int maxCount)
         {
-            if (_period.Ticks <= 0)
+            if (period.Ticks <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(period));
             }
@@ -30,7 +30,7 @@ namespace AspNetCoreExt.Qos.RateLimit.Internal
 
         public async Task<QosGateEnterResult> TryEnterAsync(QosGateEnterContext context)
         {
-            var result = await _store.TryAddASync(context.Key, 1, _maxCount, _period);
+            var result = await _store.TryAddAsync(context.Key, 1, _maxCount, _period);
 
             return new QosGateEnterResult()
             {
@@ -40,7 +40,7 @@ namespace AspNetCoreExt.Qos.RateLimit.Internal
 
         public Task ExitAsync(QosGateExitContext context)
         {
-            return _store.AddAsync(context.Key, -1);
+            return Task.CompletedTask;
         }
     }
 }

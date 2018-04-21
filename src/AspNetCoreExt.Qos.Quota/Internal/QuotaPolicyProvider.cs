@@ -19,7 +19,7 @@ namespace AspNetCoreExt.Qos.Quota.Internal
             _policies = BuildPolicies(options.Value, keyComputerProviders, serviceProvider).ToArray();
         }
 
-        public int Order => 1400;
+        public int Order => 1300;
 
         public IEnumerable<QosPolicy> GetPolicies() => _policies;
 
@@ -32,12 +32,12 @@ namespace AspNetCoreExt.Qos.Quota.Internal
             {
                 foreach (var option in options.Policies)
                 {
-                    var policy = new QosPolicy(option.Name)
+                    var policy = new QosPolicy(option.Key)
                     {
                         Order = -1100,
-                        UrlTemplates = option.UrlTemplates,
-                        Key = keyComputerProviders.Create(option.Key),
-                        Gate = CreateGate(option.Period, option.MaxCount, option.Distributed, serviceProvider)
+                        UrlTemplates = option.Value.UrlTemplates,
+                        Key = keyComputerProviders.Create(option.Value.Key),
+                        Gate = CreateGate(option.Value.Period, option.Value.MaxCount * 1024, option.Value.Distributed, serviceProvider)
                     };
 
                     yield return policy;

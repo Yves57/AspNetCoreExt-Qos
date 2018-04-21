@@ -23,7 +23,7 @@ namespace AspNetCoreExt.Qos.Concurrency.Internal
 
         public async Task<QosGateEnterResult> TryEnterAsync(QosGateEnterContext context)
         {
-            var result = await _store.TryAddASync(context.Key, 1, _maxCount, null);
+            var result = await _store.TryAddAsync(context.Key, 1, _maxCount, null);
 
             return new QosGateEnterResult()
             {
@@ -33,7 +33,7 @@ namespace AspNetCoreExt.Qos.Concurrency.Internal
 
         public Task ExitAsync(QosGateExitContext context)
         {
-            return _store.AddAsync(context.Key, -1);
+            return _store.AddAsync(context.Key, -1, null);
         }
     }
 }

@@ -26,7 +26,17 @@ namespace AspNetCoreExt.Qos.Internal
             {
                 foreach (var urlTemplate in Policy.UrlTemplates)
                 {
-                    var routeTemplate = TemplateParser.Parse(urlTemplate);
+                    var template = urlTemplate;
+                    if (template.StartsWith("/"))
+                    {
+                        template = template.Substring(1);
+                    }
+                    else if (template.StartsWith("~/"))
+                    {
+                        template = template.Substring(2);
+                    }
+
+                    var routeTemplate = TemplateParser.Parse(template);
 
                     yield return new TemplateMatcher(routeTemplate, null);
                 }

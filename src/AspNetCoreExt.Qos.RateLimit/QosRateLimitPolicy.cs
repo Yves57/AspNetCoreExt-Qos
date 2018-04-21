@@ -5,8 +5,6 @@ namespace AspNetCoreExt.Qos.RateLimit
 {
     public class QosRateLimitPolicy
     {
-        public string Name { get; set; }
-
         public IEnumerable<string> UrlTemplates { get; set; }
 
         public object Key { get; set; }

@@ -1,34 +1,38 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Template;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 
 namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
 {
-    public class DefaultContext : IOperation, IRequest, IRequestHeaders
+    public class DefaultContext : IRequest, IRequestHeaders
     {
         private readonly HttpContext _httpContext;
 
-        public DefaultContext(HttpContext httpContext, DateTime timestamp)
+        private readonly string _routeTemplate;
+
+        private readonly IDictionary<string, string> _routeValues;
+
+        public DefaultContext(
+            HttpContext httpContext,
+            RouteTemplate routeTemplate,
+            RouteValueDictionary routeValues,
+            DateTime timestamp)
         {
             _httpContext = httpContext;
             Timestamp = timestamp;
+            _routeTemplate = routeTemplate.TemplateText;
+            _routeValues = routeValues.ToDictionary(p => p.Key, p => p.Value?.ToString());
         }
-
-        // TODO --> Ajouter l'utilisateur
-        // TODO --> Ajouter des variables qui soient dynamiques (comme ça le client change la variable d'environnement et c'est pris en compte)
-
-        public IOperation Operation => this;
 
         public IRequest Request => this;
 
         public DateTime Timestamp { get; }
-
-        string IOperation.Method => _httpContext.Request.Method;
-
-        string IOperation.UrlTemplate => throw new NotImplementedException(); // TODO
 
         string IRequest.Method => _httpContext.Request.Method;
 
@@ -36,11 +40,15 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
 
         IRequestHeaders IRequest.Headers => this;
 
-        string IRequest.IpAddress => $"{_httpContext.Connection.RemoteIpAddress}:{_httpContext.Connection.RemotePort}";
+        string IRequest.IpAddress => _httpContext.Connection.RemoteIpAddress.ToString();
 
-        string IRequest.OriginalUrl => $"{_httpContext.Request.Scheme}://{_httpContext.Request.Path}{_httpContext.Request.Query}";
+        string IRequest.Url => $"{_httpContext.Request.Path}{_httpContext.Request.QueryString}";
 
-        string IRequest.Url => $"{_httpContext.Request.Scheme}://{_httpContext.Request.Path}{_httpContext.Request.Query}";
+        string IRequest.RouteTemplate => _routeTemplate;
+
+        IDictionary<string, string> IRequest.RouteValues => _routeValues;
+
+        ClaimsPrincipal IRequest.User => _httpContext.User;
 
         IEnumerable<string> IReadOnlyDictionary<string, string[]>.Keys => _httpContext.Request.Headers.Keys;
 

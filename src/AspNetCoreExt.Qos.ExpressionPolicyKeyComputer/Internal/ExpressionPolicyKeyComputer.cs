@@ -21,11 +21,18 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
                 "System.Linq" // Linq
             };
 
-        private static readonly Assembly[] AllowedReferences = new Assembly[]
+        private static readonly Assembly[] AllowedReferenceByTypes = new Assembly[]
             {
                 typeof(object).Assembly,
                 typeof(Enumerable).Assembly,
-                typeof(IQosPolicyKeyComputer).Assembly
+                typeof(IQosPolicyKeyComputer).Assembly,
+                typeof(DefaultContext).Assembly
+            };
+
+        private static readonly string[] AllowedReferenceByNames = new string[]
+            {
+                "netstandard.dll",
+                "System.Runtime.dll"
             };
 
         private readonly Func<DefaultContext, string> _compiledFunction;
@@ -37,7 +44,11 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
 
         public string GetKey(QosPolicyKeyContext context)
         {
-            return _compiledFunction(new DefaultContext(context.HttpContext, DateTime.UtcNow)); // TODO Gérer la date...
+            return _compiledFunction(new DefaultContext(
+                context.HttpContext,
+                context.RouteTemplate,
+                context.RouteValues,
+                DateTime.UtcNow));
         }
 
         private Func<DefaultContext, string> CompileFunction(string expression)
@@ -56,7 +67,7 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
             var lines = new List<string>();
 
             lines.AddRange(AllowedNamespaces.Select(s => $"using {s};"));
-            lines.Add($"public namespace {CompiledNamespace}");
+            lines.Add($"namespace {CompiledNamespace}");
             lines.Add("{");
             lines.Add($"   public static class {CompiledClass}");
             lines.Add("   {");
@@ -86,15 +97,12 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
             var parseOptions = new CSharpParseOptions(LanguageVersion.CSharp7_2, DocumentationMode.None);
             var syntaxTree = CSharpSyntaxTree.ParseText(string.Join("\n", sources), parseOptions);
 
-            var references = AllowedReferences
-                .Select(a => MetadataReference.CreateFromFile(a.Location))
-                .ToArray();
-            var assemblyName = $"KeyProvider{Guid.NewGuid():D}";
+            var assemblyName = $"KeyProvider{Guid.NewGuid():N}";
             var compilationOptions = new CSharpCompilationOptions(
                 outputKind: OutputKind.DynamicallyLinkedLibrary,
                 optimizationLevel: OptimizationLevel.Release,
                 deterministic: true);
-            var compilation = CSharpCompilation.Create(assemblyName, new[] { syntaxTree }, references, compilationOptions);
+            var compilation = CSharpCompilation.Create(assemblyName, new[] { syntaxTree }, GetReferences(), compilationOptions);
 
             using (var stream = new MemoryStream())
             {
@@ -105,6 +113,21 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
                 }
 
                 return Assembly.Load(stream.ToArray());
+            }
+        }
+
+        private IEnumerable<MetadataReference> GetReferences()
+        {
+            foreach (var refByType in AllowedReferenceByTypes)
+            {
+                yield return MetadataReference.CreateFromFile(refByType.Location);
+            }
+
+            var basePath = Path.GetDirectoryName(typeof(object).Assembly.Location);
+
+            foreach (var refByName in AllowedReferenceByNames)
+            {
+                yield return MetadataReference.CreateFromFile(Path.Combine(basePath, refByName));
             }
         }
     }

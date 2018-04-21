@@ -80,14 +80,14 @@ namespace AspNetCoreExt.Qos
                 RouteTemplate routeTemplate;
                 if (policy.TryUrlMatching(context.Request.Path, routeValues, out routeTemplate))
                 {
-                    PrepareKeyContext(keyContext, context, routeTemplate, routeValues);
+                    PrepareKeyContext(keyContext, context, policy.Policy, routeTemplate, routeValues);
 
-                    var key = policy.Policy.Key.GetKey(keyContext); // TODO Catch exceptions...
+                    var key = policy.Policy.Key.GetKey(keyContext);
                     if (!string.IsNullOrEmpty(key))
                     {
                         PrepareGateEnterContext(enterContext, context, key);
 
-                        var enterResult = await policy.Policy.Gate.TryEnterAsync(enterContext); // TODO Catch exceptions...
+                        var enterResult = await policy.Policy.Gate.TryEnterAsync(enterContext);
 
                         if (!enterResult.Success)
                         {
@@ -109,10 +109,12 @@ namespace AspNetCoreExt.Qos
         private void PrepareKeyContext(
             QosPolicyKeyContext context,
             HttpContext httpContext,
+            QosPolicy policy,
             RouteTemplate routeTemplate,
             RouteValueDictionary routeValues)
         {
             context.HttpContext = httpContext;
+            context.Policy = policy;
             context.RouteTemplate = routeTemplate;
             context.RouteValues = routeValues;
         }
@@ -143,7 +145,6 @@ namespace AspNetCoreExt.Qos
                     }
                     catch // Catch all exceptions to be able to execute the other releases
                     {
-                        // TODO --> Log error?
                     }
                 }
             }
