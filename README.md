@@ -1,6 +1,8 @@
+
 # AspNetCoreExt-Qos
 
 ASP.NET Core QoS is a set of high-performance and highly customizable middlewares that allow to set different limits on requests (quotas, rates).
+All packages are available in Nuget.
 
 ## Simple example
 
