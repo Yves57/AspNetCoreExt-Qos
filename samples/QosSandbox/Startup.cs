@@ -32,7 +32,7 @@ namespace QosSandbox
             services.AddQosRedisStore(o => o.Configuration = "localhost");
 
             services.AddQos();
-            services.AddExpressionPolicyKeyComputer();
+            services.AddQosExpressionPolicyKeyComputer();
 
             services.Configure<QosVipOptions>(Configuration.GetSection("Vip"));
             services.AddQosVip();

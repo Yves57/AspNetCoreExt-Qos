@@ -7,7 +7,7 @@ namespace Microsoft.AspNetCore.Builder
 {
     public static class QosExpressionPolicyKeyComputerServicesExtensions
     {
-        public static void AddExpressionPolicyKeyComputer(this IServiceCollection services)
+        public static void AddQosExpressionPolicyKeyComputer(this IServiceCollection services)
         {
             if (services == null)
             {
