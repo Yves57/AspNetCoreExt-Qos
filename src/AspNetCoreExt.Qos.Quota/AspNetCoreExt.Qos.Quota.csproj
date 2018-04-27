@@ -2,6 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>AspNetCoreExt.Qos.Quota</PackageId>
+    <Version>1.0.0-alpha-1</Version>
+    <Authors>Yves Marx</Authors>
+    <Company>-</Company>
+    <Description>ASP.NET Core QoS is a set of high-performance and highly customizable middlewares that allow to set different limits on requests (quotas, rates, concurrency,...).</Description>
+    <Copyright>Copyright © Yves Marx 2018</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Yves57/AspNetCoreExt-Qos/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Yves57/AspNetCoreExt-Qos</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Yves57/AspNetCoreExt-Qos</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>aspnetcore;concurrency;rate limit;quota;qos</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <InformationalVersion>1.0.0-alpha-1</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
