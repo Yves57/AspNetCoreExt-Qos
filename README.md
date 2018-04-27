@@ -14,7 +14,7 @@ public void ConfigureServices(IServiceCollection services)
     services.AddQos();
 
     // Allows to use C# expressions directly in the 'appsettings.json' file
-    services.AddExpressionPolicyKeyComputer();
+    services.AddQosExpressionPolicyKeyComputer();
 
     // Add middleware that allows special request to bypass the QoS policies
     services.Configure<QosVipOptions>(Configuration.GetSection("Vip"));
@@ -136,7 +136,7 @@ The following code...
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddQos();
-    services.AddExpressionPolicyKeyComputer();
+    services.AddQosExpressionPolicyKeyComputer();
     services.Configure<QosQuotaOptions>(Configuration.GetSection("Quota"));
     services.AddQosQuota();
 
@@ -178,7 +178,7 @@ public class MyController : ControllerBase
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddQos();
-    services.AddExpressionPolicyKeyComputer();
+    services.AddQosExpressionPolicyKeyComputer();
     services.Configure<QosQuotaOptions>(Configuration.GetSection("Quota"));
     services.AddQosQuota();
 
