@@ -1,4 +1,4 @@
-﻿using AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context;
+﻿using AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Internal.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Template;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Net;
 using Xunit;
 
-namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Tests
+namespace AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Tests
 {
     public class DefaultContextTest
     {

@@ -15,7 +15,7 @@ namespace QosSandbox.CustomPolicy
                 {
                     Order = 0,
                     Gate = new MyCustomPolicyGate(),
-                    Key = new MyCustomPolicyKeyComputer(),
+                    Key = new MyCustomPolicyKeyEvaluator(),
                     UrlTemplates = new[] { "*" }
                 }
             };

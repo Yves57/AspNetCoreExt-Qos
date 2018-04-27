@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
+namespace AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Internal.Context
 {
     public class RequestHeaderEnumerator : IEnumerator<KeyValuePair<string, string[]>>
     {

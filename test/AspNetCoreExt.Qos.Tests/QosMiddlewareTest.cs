@@ -167,7 +167,7 @@ namespace AspNetCoreExt.Qos.Tests
                 Order = 10,
                 UrlTemplates = new[] { "*" },
                 Gate = new FuncQosPolicyGate(enterFunc, exitAction),
-                Key = new ConstantQosPolicyKeyComputer(key)
+                Key = new ConstantQosPolicyKeyEvaluator(key)
             };
         }
     }

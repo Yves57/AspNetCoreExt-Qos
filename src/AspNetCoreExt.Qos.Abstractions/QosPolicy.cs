@@ -21,7 +21,7 @@ namespace AspNetCoreExt.Qos
 
         public IEnumerable<string> UrlTemplates { get; set; }
 
-        public IQosPolicyKeyComputer Key { get; set; }
+        public IQosPolicyKeyEvaluator Key { get; set; }
 
         public IQosRejectResponse RejectResponse { get; set; }
 

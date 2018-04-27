@@ -8,7 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 
-namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
+namespace AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Internal.Context
 {
     public class DefaultContext : IRequest, IRequestHeaders
     {
@@ -26,8 +26,8 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
         {
             _httpContext = httpContext;
             Timestamp = timestamp;
-            _routeTemplate = routeTemplate.TemplateText;
-            _routeValues = routeValues.ToDictionary(p => p.Key, p => p.Value?.ToString());
+            _routeTemplate = routeTemplate?.TemplateText;
+            _routeValues = routeValues?.ToDictionary(p => p.Key, p => p.Value?.ToString());
         }
 
         public IRequest Request => this;

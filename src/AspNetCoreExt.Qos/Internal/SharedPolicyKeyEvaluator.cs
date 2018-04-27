@@ -1,6 +1,6 @@
 ﻿namespace AspNetCoreExt.Qos.Internal
 {
-    public class SharedPolicyKeyComputer : IQosPolicyKeyComputer
+    public class SharedPolicyKeyEvaluator : IQosPolicyKeyEvaluator
     {
         private static readonly string SharedPolicyPrefix = "QoS_Shared_";
 

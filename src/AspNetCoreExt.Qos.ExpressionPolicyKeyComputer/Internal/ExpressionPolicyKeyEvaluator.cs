@@ -1,4 +1,4 @@
-﻿using AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context;
+﻿using AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Internal.Context;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
@@ -7,13 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
+namespace AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Internal
 {
-    public class ExpressionPolicyKeyComputer : IQosPolicyKeyComputer
+    public class ExpressionPolicyKeyEvaluator : IQosPolicyKeyEvaluator
     {
         private static readonly string CompiledNamespace = "Compiled";
 
-        private static readonly string CompiledClass = "CompiledKeyComputer";
+        private static readonly string CompiledClass = "CompiledKeyEvaluator";
 
         private static readonly string[] AllowedNamespaces = new string[]
             {
@@ -25,7 +25,7 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
             {
                 typeof(object).Assembly,
                 typeof(Enumerable).Assembly,
-                typeof(IQosPolicyKeyComputer).Assembly,
+                typeof(IQosPolicyKeyEvaluator).Assembly,
                 typeof(DefaultContext).Assembly
             };
 
@@ -37,7 +37,7 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
 
         private readonly Func<DefaultContext, string> _compiledFunction;
 
-        public ExpressionPolicyKeyComputer(string expression)
+        public ExpressionPolicyKeyEvaluator(string expression)
         {
             _compiledFunction = CompileFunction(expression);
         }
@@ -57,7 +57,7 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
             var assembly = BuildAssembly(sources);
 
             var type = assembly.GetType($"{CompiledNamespace}.{CompiledClass}");
-            var method = type.GetMethod(nameof(IQosPolicyKeyComputer.GetKey));
+            var method = type.GetMethod(nameof(IQosPolicyKeyEvaluator.GetKey));
 
             return (Func<DefaultContext, string>)method.CreateDelegate(typeof(Func<DefaultContext, string>));
         }
@@ -71,7 +71,7 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal
             lines.Add("{");
             lines.Add($"   public static class {CompiledClass}");
             lines.Add("   {");
-            lines.Add($"      public static string {nameof(IQosPolicyKeyComputer.GetKey)}({typeof(DefaultContext).FullName} context)");
+            lines.Add($"      public static string {nameof(IQosPolicyKeyEvaluator.GetKey)}({typeof(DefaultContext).FullName} context)");
 
             if (expression.TrimStart().StartsWith("{"))
             {

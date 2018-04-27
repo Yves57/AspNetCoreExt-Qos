@@ -32,7 +32,7 @@ namespace QosSandbox
             services.AddQosRedisStore(o => o.Configuration = "localhost");
 
             services.AddQos();
-            services.AddQosExpressionPolicyKeyComputer();
+            services.AddQosExpressionPolicyKeyEvaluator();
 
             services.Configure<QosVipOptions>(Configuration.GetSection("Vip"));
             services.AddQosVip();
@@ -48,7 +48,7 @@ namespace QosSandbox
                     MaxCount = 2,
                     Period = new TimeSpan(0, 0, 30),
                     UrlTemplates = new[] { "/api/ratelimit2" },
-                    Key = QosPolicyKeyComputer.Create(c => c.HttpContext.Connection.RemoteIpAddress.ToString())
+                    Key = QosPolicyKeyEvaluator.Create(c => c.HttpContext.Connection.RemoteIpAddress.ToString())
                 });
             });
 
