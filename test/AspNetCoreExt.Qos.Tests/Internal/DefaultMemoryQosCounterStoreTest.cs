@@ -133,6 +133,10 @@ namespace AspNetCoreExt.Qos.Tests.Internal
 
             Assert.Equal(16, store.Count);
 
+            clock.UtcNow += TimeSpan.FromSeconds(5);
+            clock.Callbacks.First().Invoke();
+
+            Assert.Equal(11, store.Count);
         }
     }
 }

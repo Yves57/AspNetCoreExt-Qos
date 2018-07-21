@@ -43,9 +43,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreExt.Qos.Mvc.Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreExt.Qos.Abstractions.Tests", "test\AspNetCoreExt.Qos.Abstractions.Tests\AspNetCoreExt.Qos.Abstractions.Tests.csproj", "{6685F90A-D69A-45E4-A794-CA8CED00AFAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreExt.Qos.Store.Redis", "src\AspNetCoreExt.Qos.Store.Redis\AspNetCoreExt.Qos.Store.Redis.csproj", "{BBF65927-D77B-4CE4-A1F0-5032FA8CBC34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreExt.Qos.Store.Redis", "src\AspNetCoreExt.Qos.Store.Redis\AspNetCoreExt.Qos.Store.Redis.csproj", "{BBF65927-D77B-4CE4-A1F0-5032FA8CBC34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreExt.Qos.Store.Redis.Tests", "test\AspNetCoreExt.Qos.Store.Redis.Tests\AspNetCoreExt.Qos.Store.Redis.Tests.csproj", "{220C3BFD-062E-4BD3-9F87-C8DF2587BA7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreExt.Qos.Store.Redis.Tests", "test\AspNetCoreExt.Qos.Store.Redis.Tests\AspNetCoreExt.Qos.Store.Redis.Tests.csproj", "{220C3BFD-062E-4BD3-9F87-C8DF2587BA7E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{E80DF78A-5428-457A-9EE6-1B5EEAFE70DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreExt.Qos.Performance", "benchmarks\AspNetCoreExt.Qos.Performance\AspNetCoreExt.Qos.Performance.csproj", "{946FD910-6A98-4F26-B0B6-81BE00BDABE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +133,10 @@ Global
 		{220C3BFD-062E-4BD3-9F87-C8DF2587BA7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{220C3BFD-062E-4BD3-9F87-C8DF2587BA7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{220C3BFD-062E-4BD3-9F87-C8DF2587BA7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{946FD910-6A98-4F26-B0B6-81BE00BDABE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{946FD910-6A98-4F26-B0B6-81BE00BDABE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{946FD910-6A98-4F26-B0B6-81BE00BDABE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{946FD910-6A98-4F26-B0B6-81BE00BDABE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,6 +161,7 @@ Global
 		{6685F90A-D69A-45E4-A794-CA8CED00AFAD} = {7CCB8C14-0093-4440-A278-4D9CAAA22C67}
 		{BBF65927-D77B-4CE4-A1F0-5032FA8CBC34} = {BBB4D112-80ED-45EF-B2C4-AE8778B7FADB}
 		{220C3BFD-062E-4BD3-9F87-C8DF2587BA7E} = {7CCB8C14-0093-4440-A278-4D9CAAA22C67}
+		{946FD910-6A98-4F26-B0B6-81BE00BDABE3} = {E80DF78A-5428-457A-9EE6-1B5EEAFE70DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0057FFF-1502-4B6C-B415-C203FEFFEAEC}
