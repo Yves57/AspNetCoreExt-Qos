@@ -73,7 +73,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
   "RateLimit": {
     "Policies": {
       "R1": {
-        "UrlTemplates": [ "/api/ratelimit/{id}" ],
+        "UrlTemplates": [ "POST /api/ratelimit/{id}" ],
         "Key": "@(context.Request.IpAddress)",
         "MaxCount": 3,
         "Period":  "0:0:10"
@@ -97,7 +97,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 In the example above, there are several policies:
 - Requests with two specific IP addresses bypass all QoS policies.
 - It is forbidden to process more than 2 simultaneous requests from the same IP address.
-- The route '/api/ratelimit/{id}' accepts only 3 requests per 10 seconds from a same IP address.
+- The route 'POST /api/ratelimit/{id}' accepts only 3 requests per 10 seconds from a same IP address.
 - The routes '/api/quota1' and '/api/quota2' accept only 300KB per 30 seconds.
 - Other routes has no specific policy (except the concurreny policy that is applied to all routes).
 
@@ -106,7 +106,7 @@ For more detailed information, see the example web site in the Github sources.
 ## Policy parameters
 
 You can set different parameters to setup the policies:
-- The URL templates indicates the routes to check. The special `"*"` URL is used as wildcard.
+- The URL templates indicates the routes to check. The special `"*"` URL is used as wildcard. If an HTTP method is set as first parameter, it is used to restrict the check. No method set means "every method is accepted".
 - The counters are separated depending on the 'key'. Several formats are accepted to set the key (see below).
 - The period defines a time window that start when the counter increment is done.
 - Max count is the limit (does not exists in the concurrency policy). It is expressed in KB for the quotas.
@@ -203,7 +203,7 @@ public class MyController : ControllerBase
   "Quota": {
     "Policies": {
       "MyPolicy": {
-        "UrlTemplates": [ "/foo/bar1", "/foo/bar2" ],
+        "UrlTemplates": [ "/foo/bar1", "GET /foo/bar2" ],
         "Key": "@(context.Request.Url)",
         "MaxCount": 300,
         "Period": "0:0:30"

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Template;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,48 +11,62 @@ namespace AspNetCoreExt.Qos.Internal
     {
         private static readonly string AllUrlWildcard = "*";
 
-        private readonly TemplateMatcher[] _templateMatchers;
+        private struct Template
+        {
+            public string HttpMethod;
+
+            public TemplateMatcher Matcher;
+        }
+
+        private readonly Template[] _templates;
 
         public PolicyDescription(QosPolicy policy)
         {
             Policy = policy;
-            _templateMatchers = BuilderTemplateMatchers().ToArray();
+            _templates = BuilderTemplates().ToArray();
         }
 
         public QosPolicy Policy { get; }
 
-        private IEnumerable<TemplateMatcher> BuilderTemplateMatchers()
+        private IEnumerable<Template> BuilderTemplates()
         {
             if (Policy.UrlTemplates != null)
             {
                 foreach (var urlTemplate in Policy.UrlTemplates)
                 {
-                    var template = urlTemplate;
-                    if (template.StartsWith("/"))
+                    var url = urlTemplate.Url;
+                    if (url.StartsWith("/"))
                     {
-                        template = template.Substring(1);
+                        url = url.Substring(1);
                     }
-                    else if (template.StartsWith("~/"))
+                    else if (url.StartsWith("~/"))
                     {
-                        template = template.Substring(2);
+                        url = url.Substring(2);
                     }
 
-                    var routeTemplate = TemplateParser.Parse(template);
+                    var routeTemplate = TemplateParser.Parse(url);
 
-                    yield return new TemplateMatcher(routeTemplate, null);
+                    yield return new Template()
+                    {
+                        HttpMethod = urlTemplate.HttpMethod,
+                        Matcher = new TemplateMatcher(routeTemplate, null)
+                    };
                 }
             }
         }
 
-        public bool TryUrlMatching(PathString url, RouteValueDictionary routeValues, out RouteTemplate routeTemplate)
+        public bool TryUrlMatching(string method, PathString url, RouteValueDictionary routeValues, out RouteTemplate routeTemplate)
         {
-            foreach (var matcher in _templateMatchers)
+            foreach (var template in _templates)
             {
-                if (matcher.Template.TemplateText == AllUrlWildcard ||
-                    matcher.TryMatch(url, routeValues))
+                if (template.HttpMethod == null || template.HttpMethod.Equals(method, StringComparison.OrdinalIgnoreCase))
                 {
-                    routeTemplate = matcher.Template;
-                    return true;
+                    if (template.Matcher.Template.TemplateText == AllUrlWildcard ||
+                        template.Matcher.TryMatch(url, routeValues))
+                    {
+                        routeTemplate = template.Matcher.Template;
+                        return true;
+                    }
                 }
             }
 

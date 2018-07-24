@@ -26,6 +26,11 @@ namespace QosSandbox.Controllers
             return new string('1', 10000);
         }
 
+        [HttpPost("quota1")]
+        public void PostQuota1()
+        {
+        }
+
         [HttpGet("quota2")]
         public string GetQuota2()
         {

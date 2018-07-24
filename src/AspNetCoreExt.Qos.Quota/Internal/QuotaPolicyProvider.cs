@@ -35,7 +35,7 @@ namespace AspNetCoreExt.Qos.Quota.Internal
                     var policy = new QosPolicy(option.Key)
                     {
                         Order = -1100,
-                        UrlTemplates = option.Value.UrlTemplates,
+                        UrlTemplates = option.Value.UrlTemplates?.Select(u => QosUrlTemplate.Parse(u)),
                         Key = keyEvaluatorProviders.Create(option.Value.Key),
                         Gate = CreateGate(option.Value.Period, option.Value.MaxCount * 1024, option.Value.Distributed, serviceProvider)
                     };

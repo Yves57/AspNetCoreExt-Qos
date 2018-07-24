@@ -165,7 +165,7 @@ namespace AspNetCoreExt.Qos.Tests
             return new QosPolicy(name)
             {
                 Order = 10,
-                UrlTemplates = new[] { "*" },
+                UrlTemplates = new[] { new QosUrlTemplate(null, "*") },
                 Gate = new FuncQosPolicyGate(enterFunc, exitAction),
                 Key = new ConstantQosPolicyKeyEvaluator(key)
             };

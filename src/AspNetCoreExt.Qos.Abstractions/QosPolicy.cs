@@ -19,7 +19,7 @@ namespace AspNetCoreExt.Qos
 
         public int Order { get; set; }
 
-        public IEnumerable<string> UrlTemplates { get; set; }
+        public IEnumerable<QosUrlTemplate> UrlTemplates { get; set; }
 
         public IQosPolicyKeyEvaluator Key { get; set; }
 
