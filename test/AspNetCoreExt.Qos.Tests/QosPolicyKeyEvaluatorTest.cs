@@ -2,14 +2,14 @@
 
 namespace AspNetCoreExt.Qos.Tests
 {
-    public class QosPolicyKeyComputerTest
+    public class QosPolicyKeyEvaluatorTest
     {
         [Fact]
         public void Create()
         {
-            var keyComputer = QosPolicyKeyComputer.Create(c => c.Policy.Name);
+            var keyEvaluator = QosPolicyKeyEvaluator.Create(c => c.Policy.Name);
 
-            var result = keyComputer.GetKey(new QosPolicyKeyContext()
+            var result = keyEvaluator.GetKey(new QosPolicyKeyContext()
             {
                 Policy = new QosPolicy("ABC")
             });

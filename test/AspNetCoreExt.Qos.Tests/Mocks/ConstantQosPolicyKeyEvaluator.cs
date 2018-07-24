@@ -1,10 +1,10 @@
 ﻿namespace AspNetCoreExt.Qos.Tests.Mocks
 {
-    class ConstantQosPolicyKeyComputer : IQosPolicyKeyComputer
+    class ConstantQosPolicyKeyEvaluator : IQosPolicyKeyEvaluator
     {
         private readonly string _key;
 
-        public ConstantQosPolicyKeyComputer(string key)
+        public ConstantQosPolicyKeyEvaluator(string key)
         {
             _key = key;
         }

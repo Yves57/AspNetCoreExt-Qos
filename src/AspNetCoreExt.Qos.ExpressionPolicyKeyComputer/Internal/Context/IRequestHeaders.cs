@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
+namespace AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Internal.Context
 {
     public interface IRequestHeaders : IReadOnlyDictionary<string, string[]>
     {

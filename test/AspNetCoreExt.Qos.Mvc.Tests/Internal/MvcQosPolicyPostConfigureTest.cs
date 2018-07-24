@@ -14,7 +14,7 @@ namespace AspNetCoreExt.Qos.Mvc.Tests.Internal
 {
     public class MvcQosPolicyPostConfigureTest
     {
-        private static readonly string MvcUrlTemplate = "foo/bar";
+        private static readonly QosUrlTemplate MvcUrlTemplate = new QosUrlTemplate("POST", "foo/bar");
 
         private readonly List<QosPolicy> _policies;
 
@@ -25,7 +25,7 @@ namespace AspNetCoreExt.Qos.Mvc.Tests.Internal
                 new QosPolicy("NoUrlTemplate"),
                 new QosPolicy("OneUrlTemplate")
                 {
-                    UrlTemplates = new[] { "one/url" }
+                    UrlTemplates = new[] { new QosUrlTemplate("GET", "one/url") }
                 }
             };
         }
@@ -38,8 +38,8 @@ namespace AspNetCoreExt.Qos.Mvc.Tests.Internal
             var postConfigure = new MvcQosPolicyPostConfigure(apiProvider);
             postConfigure.PostConfigure(_policies);
 
-            Assert.Equal(1, _policies[0].UrlTemplates.Count());
-            Assert.True(_policies[0].UrlTemplates.Contains(MvcUrlTemplate));
+            Assert.Single(_policies[0].UrlTemplates);
+            Assert.Contains(MvcUrlTemplate, _policies[0].UrlTemplates);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace AspNetCoreExt.Qos.Mvc.Tests.Internal
             postConfigure.PostConfigure(_policies);
 
             Assert.Equal(2, _policies[1].UrlTemplates.Count());
-            Assert.True(_policies[1].UrlTemplates.Contains(MvcUrlTemplate));
+            Assert.Contains(MvcUrlTemplate, _policies[1].UrlTemplates);
         }
 
         [Fact]
@@ -62,10 +62,10 @@ namespace AspNetCoreExt.Qos.Mvc.Tests.Internal
             var postConfigure = new MvcQosPolicyPostConfigure(apiProvider);
             postConfigure.PostConfigure(_policies);
 
-            Assert.Equal(1, _policies[0].UrlTemplates.Count());
-            Assert.True(_policies[0].UrlTemplates.Contains(MvcUrlTemplate));
+            Assert.Single(_policies[0].UrlTemplates);
+            Assert.Contains(MvcUrlTemplate, _policies[0].UrlTemplates);
             Assert.Equal(2, _policies[1].UrlTemplates.Count());
-            Assert.True(_policies[1].UrlTemplates.Contains(MvcUrlTemplate));
+            Assert.Contains(MvcUrlTemplate, _policies[1].UrlTemplates);
         }
 
         [Fact]
@@ -76,10 +76,10 @@ namespace AspNetCoreExt.Qos.Mvc.Tests.Internal
             var postConfigure = new MvcQosPolicyPostConfigure(apiProvider);
             postConfigure.PostConfigure(_policies);
 
-            Assert.Equal(1, _policies[0].UrlTemplates.Count());
-            Assert.True(_policies[0].UrlTemplates.Contains(MvcUrlTemplate));
+            Assert.Single(_policies[0].UrlTemplates);
+            Assert.Contains(MvcUrlTemplate, _policies[0].UrlTemplates);
             Assert.Equal(2, _policies[1].UrlTemplates.Count());
-            Assert.True(_policies[1].UrlTemplates.Contains(MvcUrlTemplate));
+            Assert.Contains(MvcUrlTemplate, _policies[1].UrlTemplates);
         }
 
         [Fact]
@@ -103,12 +103,13 @@ namespace AspNetCoreExt.Qos.Mvc.Tests.Internal
                 {
                     new ApiDescription()
                     {
+                        HttpMethod = MvcUrlTemplate.HttpMethod,
                         ActionDescriptor = new ControllerActionDescriptor()
                         {
                             MethodInfo = methodInfo,
                             AttributeRouteInfo = new AttributeRouteInfo()
                             {
-                                Template = MvcUrlTemplate
+                                Template = MvcUrlTemplate.Url
                             }
                         }
                     }

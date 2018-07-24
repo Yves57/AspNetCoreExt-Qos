@@ -13,10 +13,10 @@ namespace AspNetCoreExt.Qos.Quota.Internal
 
         public QuotaPolicyProvider(
             IOptions<QosQuotaOptions> options,
-            IEnumerable<IQosPolicyKeyComputerProvider> keyComputerProviders,
+            IEnumerable<IQosPolicyKeyEvaluatorProvider> keyEvaluatorProviders,
             IServiceProvider serviceProvider)
         {
-            _policies = BuildPolicies(options.Value, keyComputerProviders, serviceProvider).ToArray();
+            _policies = BuildPolicies(options.Value, keyEvaluatorProviders, serviceProvider).ToArray();
         }
 
         public int Order => 1300;
@@ -25,7 +25,7 @@ namespace AspNetCoreExt.Qos.Quota.Internal
 
         private IEnumerable<QosPolicy> BuildPolicies(
             QosQuotaOptions options,
-            IEnumerable<IQosPolicyKeyComputerProvider> keyComputerProviders,
+            IEnumerable<IQosPolicyKeyEvaluatorProvider> keyEvaluatorProviders,
             IServiceProvider serviceProvider)
         {
             if (options?.Policies != null)
@@ -35,8 +35,8 @@ namespace AspNetCoreExt.Qos.Quota.Internal
                     var policy = new QosPolicy(option.Key)
                     {
                         Order = -1100,
-                        UrlTemplates = option.Value.UrlTemplates,
-                        Key = keyComputerProviders.Create(option.Value.Key),
+                        UrlTemplates = option.Value.UrlTemplates?.Select(u => QosUrlTemplate.Parse(u)),
+                        Key = keyEvaluatorProviders.Create(option.Value.Key),
                         Gate = CreateGate(option.Value.Period, option.Value.MaxCount * 1024, option.Value.Distributed, serviceProvider)
                     };
 

@@ -13,10 +13,10 @@ namespace AspNetCoreExt.Qos.Concurrency.Internal
 
         public ConcurrencyPolicyProvider(
             IOptions<QosConcurrencyOptions> options,
-            IEnumerable<IQosPolicyKeyComputerProvider> keyComputerProviders,
+            IEnumerable<IQosPolicyKeyEvaluatorProvider> keyEvaluatorProviders,
             IServiceProvider serviceProvider)
         {
-            _policies = BuildPolicies(options.Value, keyComputerProviders, serviceProvider).ToArray();
+            _policies = BuildPolicies(options.Value, keyEvaluatorProviders, serviceProvider).ToArray();
         }
 
         public int Order => 1100;
@@ -25,7 +25,7 @@ namespace AspNetCoreExt.Qos.Concurrency.Internal
 
         private IEnumerable<QosPolicy> BuildPolicies(
             QosConcurrencyOptions options,
-            IEnumerable<IQosPolicyKeyComputerProvider> keyComputerProviders,
+            IEnumerable<IQosPolicyKeyEvaluatorProvider> keyEvaluatorProviders,
             IServiceProvider serviceProvider)
         {
             if (options?.Policies != null)
@@ -35,8 +35,8 @@ namespace AspNetCoreExt.Qos.Concurrency.Internal
                     var policy = new QosPolicy(option.Key)
                     {
                         Order = -1300,
-                        UrlTemplates = option.Value.UrlTemplates,
-                        Key = keyComputerProviders.Create(option.Value.Key),
+                        UrlTemplates = option.Value.UrlTemplates?.Select(u => QosUrlTemplate.Parse(u)),
+                        Key = keyEvaluatorProviders.Create(option.Value.Key),
                         Gate = CreateGate(option.Value.MaxCount, option.Value.Distributed, serviceProvider)
                     };
 

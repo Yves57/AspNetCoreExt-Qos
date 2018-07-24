@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 
-namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context
+namespace AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Internal.Context
 {
     public interface IRequest
     {

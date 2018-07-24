@@ -152,37 +152,38 @@ namespace AspNetCoreExt.Qos.Internal
         private void CleanOldEntries()
         {
             // Same algorithm as Redis (https://redis.io/commands/expire)
-            // Clearly absolutly horrible implementation, but it is a first one...
             lock (_counters)
             {
-                int oldCounter;
-                var keys = _counters.Keys.ToArray();
-                var storeCount = keys.Length;
-                var checkedKeys = new bool[storeCount];
-
-                do
+                var storeCount = _counters.Count;
+                if (storeCount > 0)
                 {
-                    oldCounter = 0;
-                    var end = Math.Min(OldEntriesCleanSamplesPerIteration, storeCount);
-                    for (int i = 0; i < end; i++)
+                    int oldCounter;
+                    var keys = _counters.Keys.ToArray();
+
+                    do
                     {
-                        for (int tries = 0; tries < 5; tries++) // Don't want to look for a key too long
+                        oldCounter = 0;
+                        var end = Math.Min(OldEntriesCleanSamplesPerIteration, storeCount);
+                        for (int i = 0; i < end; i++)
                         {
-                            var index = _random.Next(storeCount);
-                            if (!checkedKeys[index])
+                            for (int tries = 0; tries < 5; tries++) // Don't want to look for a key too long
                             {
-                                checkedKeys[index] = true;
-                                if (!TryGet(keys[index], out _))
+                                var index = _random.Next(storeCount);
+                                if (keys[index] != null)
                                 {
-                                    oldCounter++;
-                                    storeCount--;
+                                    if (!TryGet(keys[index], out _))
+                                    {
+                                        oldCounter++;
+                                        storeCount--;
+                                    }
+                                    keys[index] = null; // Indicate that the key has been already checked
+                                    break;
                                 }
-                                break;
                             }
                         }
                     }
+                    while (oldCounter > OldEntriesCleanThreshold && storeCount > 0);
                 }
-                while (oldCounter > OldEntriesCleanThreshold && storeCount > 0);
             }
         }
 

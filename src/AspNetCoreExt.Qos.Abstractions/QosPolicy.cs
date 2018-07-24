@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AspNetCoreExt.Qos
 {
@@ -6,6 +7,11 @@ namespace AspNetCoreExt.Qos
     {
         public QosPolicy(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Cannot be empty.", nameof(name));
+            }
+
             Name = name;
         }
 
@@ -13,9 +19,9 @@ namespace AspNetCoreExt.Qos
 
         public int Order { get; set; }
 
-        public IEnumerable<string> UrlTemplates { get; set; }
+        public IEnumerable<QosUrlTemplate> UrlTemplates { get; set; }
 
-        public IQosPolicyKeyComputer Key { get; set; }
+        public IQosPolicyKeyEvaluator Key { get; set; }
 
         public IQosRejectResponse RejectResponse { get; set; }
 

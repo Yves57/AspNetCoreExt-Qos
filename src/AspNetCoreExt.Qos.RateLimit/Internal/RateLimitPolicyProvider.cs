@@ -13,10 +13,10 @@ namespace AspNetCoreExt.Qos.RateLimit.Internal
 
         public RateLimitPolicyProvider(
             IOptions<QosRateLimitOptions> options,
-            IEnumerable<IQosPolicyKeyComputerProvider> keyComputerProviders,
+            IEnumerable<IQosPolicyKeyEvaluatorProvider> keyEvaluatorProviders,
             IServiceProvider serviceProvider)
         {
-            _policies = BuildPolicies(options.Value, keyComputerProviders, serviceProvider).ToArray();
+            _policies = BuildPolicies(options.Value, keyEvaluatorProviders, serviceProvider).ToArray();
         }
 
         public int Order => 1200;
@@ -25,7 +25,7 @@ namespace AspNetCoreExt.Qos.RateLimit.Internal
 
         private IEnumerable<QosPolicy> BuildPolicies(
             QosRateLimitOptions options,
-            IEnumerable<IQosPolicyKeyComputerProvider> keyComputerProviders,
+            IEnumerable<IQosPolicyKeyEvaluatorProvider> keyEvaluatorProviders,
             IServiceProvider serviceProvider)
         {
             if (options?.Policies != null)
@@ -35,8 +35,8 @@ namespace AspNetCoreExt.Qos.RateLimit.Internal
                     var policy = new QosPolicy(option.Key)
                     {
                         Order = -1200,
-                        UrlTemplates = option.Value.UrlTemplates,
-                        Key = keyComputerProviders.Create(option.Value.Key),
+                        UrlTemplates = option.Value.UrlTemplates?.Select(u => QosUrlTemplate.Parse(u)),
+                        Key = keyEvaluatorProviders.Create(option.Value.Key),
                         Gate = CreateGate(option.Value.Period, option.Value.MaxCount, option.Value.Distributed, serviceProvider)
                     };
 

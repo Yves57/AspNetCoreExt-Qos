@@ -2,7 +2,7 @@
 
 namespace QosSandbox.CustomPolicy
 {
-    public class MyCustomPolicyKeyComputer : IQosPolicyKeyComputer
+    public class MyCustomPolicyKeyEvaluator : IQosPolicyKeyEvaluator
     {
         public string GetKey(QosPolicyKeyContext context)
         {

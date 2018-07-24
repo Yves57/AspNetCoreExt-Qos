@@ -1,6 +1,6 @@
 ﻿namespace AspNetCoreExt.Qos
 {
-    public interface IQosPolicyKeyComputer
+    public interface IQosPolicyKeyEvaluator
     {
         string GetKey(QosPolicyKeyContext context);
     }

@@ -3,13 +3,13 @@ using Xunit;
 
 namespace AspNetCoreExt.Qos.Tests.Internal
 {
-    public class SharedPolicyKeyComputerTest
+    public class SharedPolicyKeyEvaluatorTest
     {
         [Fact]
         void GetKey()
         {
-            var computer = new SharedPolicyKeyComputer();
-            var key = computer.GetKey(new QosPolicyKeyContext()
+            var evaluator = new SharedPolicyKeyEvaluator();
+            var key = evaluator.GetKey(new QosPolicyKeyContext()
             {
                 Policy = new QosPolicy("MyPolicy")
             });

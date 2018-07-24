@@ -78,7 +78,7 @@ namespace AspNetCoreExt.Qos
 
                 var routeValues = new RouteValueDictionary();
                 RouteTemplate routeTemplate;
-                if (policy.TryUrlMatching(context.Request.Path, routeValues, out routeTemplate))
+                if (policy.TryUrlMatching(context.Request.Method, context.Request.Path, routeValues, out routeTemplate))
                 {
                     PrepareKeyContext(keyContext, context, policy.Policy, routeTemplate, routeValues);
 

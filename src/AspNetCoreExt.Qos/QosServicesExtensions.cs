@@ -19,8 +19,8 @@ namespace Microsoft.AspNetCore.Builder
             services.AddSingleton<PolicyBuilder>();
             services.TryAddSingleton<IQosRejectResponse, QosRejectResponse>();
             services.AddSingleton<IQosPolicyPostConfigure, DefaultQosPolicyPostConfigure>();
-            services.AddSingleton<IQosPolicyKeyComputerProvider, DirectQosPolicyKeyComputerProvider>();
-            services.AddSingleton<IQosPolicyKeyComputerProvider, SharedPolicyKeyComputerProvider>();
+            services.AddSingleton<IQosPolicyKeyEvaluatorProvider, DirectQosPolicyKeyEvaluatorProvider>();
+            services.AddSingleton<IQosPolicyKeyEvaluatorProvider, SharedPolicyKeyEvaluatorProvider>();
             services.AddSingleton<ISystemClock, DefaultSystemClock>();
             services.TryAddSingleton<IQosMemoryCounterStore, DefaultMemoryQosCounterStore>();
         }

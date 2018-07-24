@@ -31,12 +31,12 @@ namespace AspNetCoreExt.Qos.Mvc.Internal
                             throw new Exception($"No policy {policyAttribute.PolicyName} found for QoS MVC attribute.");
                         }
 
-                        var urlTemplates = new List<string>();
+                        var urlTemplates = new List<QosUrlTemplate>();
                         if (policy.UrlTemplates != null)
                         {
                             urlTemplates.AddRange(policy.UrlTemplates);
                         }
-                        urlTemplates.Add(actionDescriptor.AttributeRouteInfo.Template);
+                        urlTemplates.Add(new QosUrlTemplate(apiDescription.HttpMethod, actionDescriptor.AttributeRouteInfo.Template));
 
                         policy.UrlTemplates = urlTemplates;
                     }

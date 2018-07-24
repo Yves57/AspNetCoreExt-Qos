@@ -1,20 +1,20 @@
-using AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal;
+using AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Internal;
 using Xunit;
 
-namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Tests
+namespace AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Tests
 {
-    public class ExpressionPolicyKeyComputerProviderTest
+    public class ExpressionPolicyKeyEvaluatorProviderTest
     {
         [Theory]
         [InlineData("@(\"abc\")")]
         [InlineData("@(   \"abc\"    )")]
         public void TryCreate_Expression_Success(string source)
         {
-            var provider = new ExpressionPolicyKeyComputerProvider();
+            var provider = new ExpressionPolicyKeyEvaluatorProvider();
 
-            var computer = provider.TryCreate(source);
+            var evaluator = provider.TryCreate(source);
 
-            Assert.NotNull(computer);
+            Assert.NotNull(evaluator);
         }
 
         [Theory]
@@ -26,11 +26,11 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Tests
         [InlineData("@{\"abc\")")]
         public void TryCreate_Expression_Fail(string source)
         {
-            var provider = new ExpressionPolicyKeyComputerProvider();
+            var provider = new ExpressionPolicyKeyEvaluatorProvider();
 
-            var computer = provider.TryCreate(source);
+            var evaluator = provider.TryCreate(source);
 
-            Assert.Null(computer);
+            Assert.Null(evaluator);
         }
 
         [Theory]
@@ -38,11 +38,11 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Tests
         [InlineData("@{{ return \"abc\"; }}")]
         public void TryCreate_Method_Success(string source)
         {
-            var provider = new ExpressionPolicyKeyComputerProvider();
+            var provider = new ExpressionPolicyKeyEvaluatorProvider();
 
-            var computer = provider.TryCreate(source);
+            var evaluator = provider.TryCreate(source);
 
-            Assert.NotNull(computer);
+            Assert.NotNull(evaluator);
         }
 
         [Theory]
@@ -54,11 +54,11 @@ namespace AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Tests
         [InlineData("@{ return \"abc\"; )")]
         public void TryCreate_Method_Fail(string source)
         {
-            var provider = new ExpressionPolicyKeyComputerProvider();
+            var provider = new ExpressionPolicyKeyEvaluatorProvider();
 
-            var computer = provider.TryCreate(source);
+            var evaluator = provider.TryCreate(source);
 
-            Assert.Null(computer);
+            Assert.Null(evaluator);
         }
     }
 }
