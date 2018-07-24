@@ -14,7 +14,7 @@ public void ConfigureServices(IServiceCollection services)
     services.AddQos();
 
     // Allows to use C# expressions directly in the 'appsettings.json' file
-    services.AddQosExpressionPolicyKeyComputer();
+    services.AddQosExpressionPolicyKeyEvaluator();
 
     // Add middleware that allows special request to bypass the QoS policies
     services.Configure<QosVipOptions>(Configuration.GetSection("Vip"));
@@ -33,7 +33,7 @@ public void ConfigureServices(IServiceCollection services)
             MaxCount = 2,
             Period = new TimeSpan(0, 0, 30),
             UrlTemplates = new[] { "/api/ratelimit2" },
-            Key = QosPolicyKeyComputer.Create(c => c.HttpContext.Connection.RemoteIpAddress.ToString())
+            Key = QosPolicyKeyEvaluator.Create(c => c.HttpContext.Connection.RemoteIpAddress.ToString())
         });
     });
         
@@ -114,12 +114,12 @@ You can set different parameters to setup the policies:
 
 ## Key parameter syntax
 
-- If the key expression analyzer is setup (`services.AddExpressionPolicyKeyComputer()`), it is possible to write key C# expression as strings directly in the 'appsettings.json'.
+- If the key expression analyzer is setup (`services.AddExpressionPolicyKeyEvaluator()`), it is possible to write key C# expression as strings directly in the 'appsettings.json'.
     - Text enclosed between `@(` and `)` is considered as a C# expression.
     - Text enclosed between `@{` and `}` is considered as a C# method body (and must include a `return...` somewhere).
-    - Both syntaxes can use a `context` variable that contains several properties and methods (see Github `AspNetCoreExt.Qos.ExpressionPolicyKeyComputer.Internal.Context.DefaultContext` source for details).
+    - Both syntaxes can use a `context` variable that contains several properties and methods (see Github `AspNetCoreExt.Qos.ExpressionPolicyKeyEvaluator.Internal.Context.DefaultContext` source for details).
 - The special string `"*"` means that the key is the same for every request. It is useful to setup a global rate limit policy of 100 calls per second, for example.
-- It is possible to setup a custom policy by code: you have to write a class that implements `IQosPolicyKeyComputer`, and assign it in the options configuration.
+- It is possible to setup a custom policy by code: you have to write a class that implements `IQosPolicyKeyEvaluator`, and assign it in the options configuration.
 
 ## VIP (Very Important Person) middleware
 
@@ -136,7 +136,7 @@ The following code...
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddQos();
-    services.AddQosExpressionPolicyKeyComputer();
+    services.AddQosExpressionPolicyKeyEvaluator();
     services.Configure<QosQuotaOptions>(Configuration.GetSection("Quota"));
     services.AddQosQuota();
 
@@ -178,7 +178,7 @@ public class MyController : ControllerBase
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddQos();
-    services.AddQosExpressionPolicyKeyComputer();
+    services.AddQosExpressionPolicyKeyEvaluator();
     services.Configure<QosQuotaOptions>(Configuration.GetSection("Quota"));
     services.AddQosQuota();
 
@@ -216,7 +216,7 @@ You don't have to copy/paste the routes.
 ## Advanced customization
 
 - Custom policy gates can be created by implementing the interface `IQosPolicyGate`.
-- To accept specific syntax for the keys, implement `IQosPolicyKeyComputerProvider`.
+- To accept specific syntax for the keys, implement `IQosPolicyKeyEvaluatorProvider`.
 - To globally change/adjust parameters on policies, implement `IQosPolicyPostConfigure`.
 - To create a totally new category of policies, see `IQosPolicyProvider`.
 - To customize the error response, see the interface `IQosRejectResponse` or the default base class `DefaultQosRejectResponse`.
